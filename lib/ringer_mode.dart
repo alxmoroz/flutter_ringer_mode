@@ -43,7 +43,7 @@ class RingerModeService {
   static Future<bool> setRingerMode(RingerMode mode) async {
     try {
       final String modeString = _ringerModeToString(mode);
-      final bool result = await _channel.invokeMethod('setRingerMode', modeString);
+      final bool result = await _channel.invokeMethod('setRingerMode', {'mode': modeString});
       return result;
     } catch (e) {
       return false;
