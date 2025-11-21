@@ -38,7 +38,6 @@
 - Нет .gitignore файла (нужно создать)
 - Возможны временные файлы в git (.dart_tool/, .idea/, .metadata)
 - Есть `pubspec.yaml.backup` - нужно удалить
-- Нужно проверить нативный код на debug print() и русские комментарии
 
 ## Команды
 ```bash
@@ -51,38 +50,12 @@ git rm --cached -r .dart_tool/
 git rm --cached .metadata .editorconfig
 git rm --cached pubspec.yaml.backup
 
-# Создание .gitignore (если отсутствует)
-# Скопировать стандартный .gitignore для Flutter plugin
-
 # Публикация (после проверки)
 git add -A
 git commit -m "Prepare for pub.dev"
 git push
 echo "y" | flutter pub publish
 ```
-
-## Специфичные проверки для ringer_mode
-
-### Нативный код
-- Android: `android/src/main/kotlin/team/moroz/flutter_ringer_mode/FlutterRingerModePlugin.kt`
-- iOS: Нет (платформа не поддерживается)
-
-### Платформы
-- Android: AudioManager для получения/установки режима звонка
-- iOS: Не поддерживается (ограничения Apple)
-
-### Permissions
-- Android: `MODIFY_AUDIO_SETTINGS` (уже в AndroidManifest.xml)
-- iOS: Не применимо
-
-### API
-- `RingerModeService.getRingerMode()` - основная функция
-- `RingerModeService.setRingerMode()` - дополнительная функция
-- `RingerModeService.ringerModeStream` - stream для изменений
-
-### Ограничения
-- Только Android (iOS не поддерживается из-за ограничений Apple)
-- Нужно четко указать в документации
 
 ## Контекст
 Эта инструкция создана на основе опыта подготовки wifi_info_enhanced.

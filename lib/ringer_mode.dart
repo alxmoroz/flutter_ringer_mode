@@ -1,16 +1,14 @@
 // Copyright (c) 2024. Alexandr Moroz
 
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 /// Enum representing ringer modes
-enum RingerMode {
-  silent,
-  vibrate,
-  normal,
-}
+enum RingerMode { silent, vibrate, normal }
 
 /// A Flutter plugin to detect and manage ringer mode on Android devices.
-/// 
+///
 /// Note: This plugin only supports Android. iOS does not provide API
 /// to access or modify ringer mode.
 class RingerModeService {
@@ -18,10 +16,10 @@ class RingerModeService {
   static const EventChannel _eventChannel = EventChannel('flutter_ringer_mode_stream');
 
   /// Get the current ringer mode.
-  /// 
+  ///
   /// Returns the current [RingerMode] of the device.
   /// On error, returns [RingerMode.normal] as fallback.
-  /// 
+  ///
   /// Platform support: Android only.
   static Future<RingerMode> getRingerMode() async {
     try {
@@ -34,10 +32,10 @@ class RingerModeService {
   }
 
   /// Set the ringer mode.
-  /// 
+  ///
   /// Changes the device ringer mode to the specified [mode].
   /// Returns `true` if successful, `false` otherwise.
-  /// 
+  ///
   /// Platform support: Android only.
   /// Note: Requires MODIFY_AUDIO_SETTINGS permission.
   static Future<bool> setRingerMode(RingerMode mode) async {
@@ -51,11 +49,16 @@ class RingerModeService {
   }
 
   /// Get a stream of ringer mode changes.
-  /// 
+  ///
   /// Emits [RingerMode] values whenever the ringer mode changes.
-  /// 
-  /// Platform support: Android only.
+  ///
+  /// Platform support: Android only. On iOS, returns a stream with a single
+  /// [RingerMode.silent] value since iOS does not provide API to access ringer mode.
   static Stream<RingerMode> get ringerModeStream {
+    if (Platform.isIOS) {
+      // iOS doesn't support ringer mode detection, return silent as fallback
+      return Stream.value(RingerMode.silent).asBroadcastStream();
+    }
     return _eventChannel.receiveBroadcastStream().map((event) {
       return _stringToRingerMode(event as String);
     });

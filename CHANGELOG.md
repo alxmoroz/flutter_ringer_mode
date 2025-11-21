@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-11-21
+
+### Fixed
+- Fixed MissingPluginException when subscribing to ringerModeStream on Android
+- Added EventChannel registration and StreamHandler implementation
+- Added BroadcastReceiver to track RINGER_MODE_CHANGED_ACTION events
+- Added iOS support in Dart layer (returns silent mode as fallback)
+
+### Changed
+- ringerModeStream now properly emits events when ringer mode changes on Android
+- ringerModeStream on iOS returns a stream with single silent value (iOS doesn't support ringer mode detection)
+
 ## [1.0.1] - 2025-10-25
 
 ### Fixed

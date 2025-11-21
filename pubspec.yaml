@@ -1,6 +1,6 @@
 name: ringer_mode
 description: A Flutter plugin to detect and manage ringer mode on Android devices. iOS is not supported due to platform limitations.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/alxmoroz/flutter_ringer_mode
 repository: https://github.com/alxmoroz/flutter_ringer_mode
 
